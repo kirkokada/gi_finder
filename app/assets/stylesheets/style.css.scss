@@ -1,6 +1,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+/* mixins, variables, etc. */
+
+@mixin box_sizing {
+  -moz-box-sizing:    border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing:         border-box;
+}
+
 /* universal */
 
 .center {
@@ -22,6 +30,22 @@ footer ul {
 		a {
 			color: $gray-light;
 		}
-		display: inline
+		display: inline;
 	}
+}
+
+/* forms */
+
+.checkbox {
+	margin-left: 20px;
+}
+
+/* debug */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
 }
