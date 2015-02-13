@@ -9,7 +9,12 @@ class ActiveSupport::TestCase
   fixtures :all
 
   def sign_in(user)
-  	post user_session_path, login: { username: user.username,
+  	post user_session_path, user: { login: user.username,
   	                                password: 'password'}
+  end
+
+  def fixture_file(filename, mime_type)
+  	filepath = fixture_path + "/#{filename}"
+		Rack::Test::UploadedFile.new(filepath, mime_type)
   end
 end

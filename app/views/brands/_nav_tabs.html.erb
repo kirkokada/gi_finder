@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+	<li class="<%= "active" if params[:action] == 'index' %>">
+		<%= link_to "List", brands_path %>
+	</li>
+	<li class="<%= "active" if params[:action] == 'new' %>">
+		<%= link_to "Add", new_brand_path %>
+	</li>
+	<li class="dropdown">
+		<a href="" class="dropdown-toggle" data-toggle="dropdown">
+			Export <span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu">
+			<li><%= link_to '.csv', brands_path(format: "csv") %></li>
+			<li><%= link_to '.xls', brands_path(format: "xls") %></li>
+		</ul>
+	</li>
+</ul>

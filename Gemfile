@@ -16,6 +16,8 @@ gem 'jquery-rails',            '4.0.3'
 gem 'turbolinks',              '2.3.0'
 gem 'jbuilder',                '2.2.3'
 gem 'sdoc',                    '0.4.0', group: :doc
+gem 'friendly_id',             '5.1.0'
+gem 'roo',                     '~> 1.13.2'
 
 group :development, :test do
   gem 'sqlite3',     '1.3.9'

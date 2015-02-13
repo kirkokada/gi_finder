@@ -1,0 +1,11 @@
+<tr>
+	<% %w[id name url].each do |name| %>
+		<td>
+			<%= brand.send(name).to_s %>
+		</td>
+	<% end %>
+	<td>
+		<%= link_to 'edit', edit_brand_path(brand) %> 
+		| <%= link_to 'delete', brand_path(brand), method: :delete, confirm: "Are you sure?" %>
+	</td>
+</tr>
