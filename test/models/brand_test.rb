@@ -28,7 +28,7 @@ class BrandTest < ActiveSupport::TestCase
   end
 
   test 'should import csv' do
-  	file = fixture_file('test.csv', 'text/csv')
+  	file = fixture_file('brands.csv', 'text/csv')
   	assert_difference 'Brand.count', 3 do
 	  	Brand.import(file)
   	end
