@@ -1,0 +1,17 @@
+<tr>
+	<td>
+		<% if current_user.admin? %>
+			<%= link_to size.name, edit_brand_size_path(size.brand, size) %>
+		<% else %>
+			<%= size.name %>
+		<% end %>
+	</td>
+	<td><%= size.height_range %></td>
+	<td><%= size.weight_range %></td>
+	<% if current_user.admin? %>
+		<td>
+			<%= link_to 'delete', brand_size_path(size.brand, size), 
+			                      method: :delete, confirm: "Delete this size?" %>
+		</td>
+	<% end %>
+</tr>

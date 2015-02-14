@@ -17,7 +17,6 @@ class BrandsController < ApplicationController
 
 	def edit
 		@brand = Brand.friendly.find(params[:id])
-		render 'new'
 	end
 
 	def update
@@ -47,6 +46,11 @@ class BrandsController < ApplicationController
 	def destroy
 		Brand.friendly.find(params[:id]).destroy
 		redirect_to brands_url
+	end
+
+	def show
+		@brand = Brand.friendly.find(params[:id])
+		@sizes = @brand.sizes
 	end
 
 	private

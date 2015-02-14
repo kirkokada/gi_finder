@@ -1,0 +1,10 @@
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<h2>Edit Brand</h2>
+		<%= form_for @brand do |f| %>
+		  <%= render 'shared/error_messages', object: f.object %>
+		  <%= render 'fields' %>
+		  <%= f.submit "Submit", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+</div>

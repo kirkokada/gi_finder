@@ -4,7 +4,7 @@ class PagesControllerTest < ActionController::TestCase
 	include Devise::TestHelpers
 
 	def setup
-		@user = users(:marcelo)
+		@user = FactoryGirl.create(:user)
 	end
 
   test "should get home" do

@@ -1,0 +1,29 @@
+<div class="row">
+		<h1><%= @brand.name %></h1>
+	<div class="col-md-4">
+		<h2>Sizes</h2>
+		<% if @sizes.any? %>
+			<table class="sizes table table-striped">
+				<thead>
+					<th>Size</th>
+					<th>Height</th>
+					<th>Weight</th>
+				</thead>
+				<tbody>
+					<%= render @sizes %>
+				</tbody>
+			</table>
+		<% end %>
+		<% if current_user.admin? %>
+			<p>
+				<%= link_to 'new', new_brand_size_path(@brand) %>
+			</p>
+		<% end %>
+	</div>
+	<div class="col-md-4">
+		<h2>Models</h2>
+	</div>
+	<div class="col-md-4">
+		<h2>Other Stuff</h2>
+	</div>
+</div>

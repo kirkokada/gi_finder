@@ -1,6 +1,7 @@
 class Brand < ActiveRecord::Base
 	extend FriendlyId
 	extend CSVImportExport
+
 	friendly_id :name, use: :slugged
 
 	VALID_URL_REGEX = /\Ahttps?:\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}$\z/ix
@@ -9,6 +10,8 @@ class Brand < ActiveRecord::Base
 	                    format: { with: VALID_URL_REGEX } 
 	                    
 	before_validation :append_http
+
+	has_many :sizes, dependent: :destroy
 
 	def self.accessible_attributes
 		%w[id name url]
