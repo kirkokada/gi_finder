@@ -38,6 +38,21 @@ class SizesController < ApplicationController
   	redirect_to @brand
   end
 
+  def index
+    @sizes = @brand.sizes
+    respond_to do |format|
+      format.html
+      format.csv do 
+        send_data @sizes.to_csv, filename: "#{@brand.slug}_sizes.csv"
+      end
+    end
+  end
+
+  def import
+    Size.import(params[:file], brand_id: @brand.id)
+    redirect_to @brand
+  end
+
   private
 
   def size_params

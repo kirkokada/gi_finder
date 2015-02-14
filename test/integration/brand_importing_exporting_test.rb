@@ -2,12 +2,11 @@ require 'test_helper'
 
 class BrandImportingExportingTest < ActionDispatch::IntegrationTest
 	def setup
-		@user = users(:admin)
+		@user = FactoryGirl.create(:user, admin: true)
 		sign_in @user
 	end
 
-	test 'should successfully import csv' do
-		Brand.delete_all
+	test 'should successfully import and export csv' do
 		file = fixture_file('brands.csv', 'text/csv')
 		assert_difference "Brand.count", 3 do
 			post import_brands_path, file: file

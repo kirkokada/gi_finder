@@ -33,7 +33,9 @@ class BrandsController < ApplicationController
 		@brands = Brand.all
 		respond_to do |format|
 			format.html { @brands = @brands.paginate(page: params[:page]) }
-			format.csv { send_data @brands.to_csv }
+			format.csv do 
+				send_data(@brands.to_csv)
+			end
 			format.xls
 		end
 	end

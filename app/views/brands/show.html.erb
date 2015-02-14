@@ -15,9 +15,21 @@
 			</table>
 		<% end %>
 		<% if current_user.admin? %>
-			<p>
-				<%= link_to 'new', new_brand_size_path(@brand) %>
-			</p>
+			<h4>Actions</h4>
+			<div>
+				<%= link_to 'new', new_brand_size_path(@brand) %> |
+				<%= link_to 'export', brand_sizes_path(@brand, format: :csv) %>
+			</div>
+			<div>
+				<h5>Import CSV</h5>
+				<p>* brand_id = <%= @brand.id %></p>
+				<%= form_tag import_brand_sizes_path(@brand), multipart: true do %>
+					<div class="form-group">
+						<%= file_field_tag :file %>
+					</div>
+					<%= submit_tag "Import" %>
+				<% end %>
+			</div>
 		<% end %>
 	</div>
 	<div class="col-md-4">

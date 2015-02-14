@@ -19,6 +19,8 @@ class SizesControllerTest < ActionController::TestCase
   	assert_redirected_to new_user_session_path
   	delete :destroy, id: 1, brand_id: @brand.id
   	assert_redirected_to new_user_session_path
+    get :index, brand_id: @brand.id
+    assert_redirected_to new_user_session_path
   end
 
   test "should redirect protected actions when not admin" do
@@ -33,5 +35,7 @@ class SizesControllerTest < ActionController::TestCase
   	assert_redirected_to root_url
   	delete :destroy, id: 1, brand_id: @brand.id
   	assert_redirected_to root_url
+    get :index, brand_id: @brand.id
+    assert_redirected_to root_url
   end
 end

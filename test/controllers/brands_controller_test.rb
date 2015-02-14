@@ -17,7 +17,7 @@ class BrandsControllerTest < ActionController::TestCase
   end
 
   test "should redirect protected actions when not admin" do
-  	sign_in users(:marcelo)
+  	sign_in FactoryGirl.create(:user, admin: false)
   	get :new
   	assert_redirected_to root_url
   	get :edit, id: 1

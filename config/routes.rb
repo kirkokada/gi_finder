@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   resources :brands do
     collection { post :import }
-    resources :sizes, except: [:show]
+    resources :sizes, except: [:show] do
+      collection { post :import }
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
