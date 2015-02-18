@@ -13,6 +13,8 @@ class Size < ActiveRecord::Base
 
 	belongs_to :brand
 
+	delegate :name, :url, to: :brand, prefix: true
+
 	# Returns a string indicating the height range in (feet)'(inches)"
 	# format.
 	def height_range
@@ -30,6 +32,24 @@ class Size < ActiveRecord::Base
 		else
 			"#{min_weight.to_i} - #{max_weight.to_i} lbs"
 		end
+	end
+
+	# Accepts and options hash, returns an active record association of sizes matching the 
+	# height and weight in the options hash. If a matching size for the height and weight
+	# doesn't exist, returns a sizes matching only height, then only weight if no matches are found.
+
+	def self.search(options={})
+		results = where(':height > min_height AND :height < max_height AND 
+										:weight >= min_weight AND :weight <= max_weight', 
+										height: options[:height], 
+										weight: options[:weight])
+		if results.empty?
+			results = where(':height >= min_height AND :height <= max_height', height: options[:height])
+			if results.empty?
+				results = where(':weight >= min_weight AND :weight <= max_weight', weight: options[:weight])
+			end
+		end
+		return results
 	end
 
 	# For use with the to_csv method of the CSVImportExport module

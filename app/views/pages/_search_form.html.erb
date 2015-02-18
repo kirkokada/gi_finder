@@ -1,0 +1,5 @@
+<%= form_tag search_path, method: "get" do %>
+	<%= hidden_field_tag :weight, params[:weight], id: "weight_input" %>
+	<%= hidden_field_tag :height, params[:height], id: "height_input" %>
+	<%= submit_tag "Find a Gi", class: "btn btn-primary btn-search" %>
+<% end %>

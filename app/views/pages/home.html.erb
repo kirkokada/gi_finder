@@ -2,22 +2,13 @@
 	<h1>Gi Finder</h1>
 	<div class="row">
 		<div class="col-md-6">
-			<h2>
-				<span id="weight"></span>
-				lbs
-			</h2>
-			<div id="weight_slider" class="form-control" data-toggle="tooltip"></div>
+			<%= render 'shared/weight_slider' %>
 		</div>
 		<div class="col-md-6">
-			<h2>
-				<span id="feet">
-				</span>
-				'
-				<span id="inches">
-				</span>
-				"
-			</h2>
-			<div id="height_slider" class="form-control"></div>
+			<%= render 'shared/height_slider' %>
+		</div>
+		<div class="row">
+			<%= render 'search_form' %>
 		</div>
 	</div>
 </div>
