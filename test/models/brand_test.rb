@@ -21,6 +21,11 @@ class BrandTest < ActiveSupport::TestCase
   	end
   end
 
+  test 'should accept trailing backslash' do
+    @brand.url = @brand.url + "/"
+    assert @brand.valid?, "#{@brand.url} should be valid."
+  end
+
   test 'should append "http://" if missing' do
   	@brand.url.delete!('http://')
   	@brand.save!

@@ -8,7 +8,13 @@
 
 # Default admin user
 
-User.create(username: "admin",
+puts "Seeding Users..."
+admin = User.new(username: "admin",
+						email: "admin@email.com",
 	          password: "password",
 	          password_confirmation: "password",
+	          height: 70,
+	          weight: 150,
 	          admin: true)
+admin.save!
+puts "Compete!"
