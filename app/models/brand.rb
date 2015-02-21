@@ -15,7 +15,7 @@ class Brand < ActiveRecord::Base
 	has_many :sizes, dependent: :destroy
 
 	def self.accessible_attributes
-		%w[id name url]
+		%w[id name url slug]
 	end
 
 	private

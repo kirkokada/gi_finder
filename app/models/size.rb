@@ -1,7 +1,7 @@
 class Size < ActiveRecord::Base
 	extend CSVImportExport
 	validates :name,       presence: true, uniqueness: { scope: :brand }
-	validates :brand_id,   presence: true
+	validates :brand_id,   presence: true, numericality: { greater_than: 0 }
 	validates :max_height, presence: true, 
 	                       numericality: { greater_than: 0 }
 	validates :min_height, presence: true, 
@@ -13,7 +13,7 @@ class Size < ActiveRecord::Base
 
 	belongs_to :brand
 
-	delegate :name, :url, to: :brand, prefix: true
+	delegate :name, :url, :slug, to: :brand, prefix: true
 
 	# Returns a string indicating the height range in (feet)'(inches)"
 	# format.
@@ -39,17 +39,22 @@ class Size < ActiveRecord::Base
 	# doesn't exist, returns a sizes matching only height, then only weight if no matches are found.
 
 	def self.search(options={})
-		results = where(':height > min_height AND :height < max_height AND 
-										:weight >= min_weight AND :weight <= max_weight', 
-										height: options[:height], 
-										weight: options[:weight])
+		results = match_height(options[:height]).match_weight(options[:weight])
 		if results.empty?
-			results = where(':height >= min_height AND :height <= max_height', height: options[:height])
+			results = match_height(options[:height])
 			if results.empty?
-				results = where(':weight >= min_weight AND :weight <= max_weight', weight: options[:weight])
+				results = match_weight(options[:weight])
 			end
 		end
 		return results
+	end
+
+	def self.match_weight(weight)
+		where(':weight >= min_weight AND :weight <= max_weight', weight: weight)
+	end
+
+	def self.match_height(height)
+		where(':height >= min_height AND :height <= max_height', height: height)
 	end
 
 	# For use with the to_csv method of the CSVImportExport module

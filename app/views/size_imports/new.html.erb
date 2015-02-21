@@ -1,0 +1,14 @@
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<h2>Import Sizes</h2>
+		<%= form_for @size_import, multipart: true do |f| %>
+			<div class="form-group">
+				<%= f.label :file %>
+				<%= f.file_field :file %>
+			</div>
+
+			<%= f.submit "Submit", class: "btn btn-primary" %>
+			
+		<% end %>
+	</div>
+</div>

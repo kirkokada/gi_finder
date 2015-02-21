@@ -14,15 +14,16 @@ module CSVImportExport
 	# Accepts options hash to skip records without 
 	# the specified key-value pair (e.g., brand_id: 1)
 
-	def import(file, options={})
+	def import(file, opts={})
 		CSV.foreach(file.path, headers: true) do |row|
 			catch :skip_row do
-				unless options.empty?
-					options.each_pair do |key, value|
+				unless opts[:limit_to].nil?
+					opts[:limit_to].each_pair do |key, value|
 						throw :skip_row if row.to_hash[key.to_s] != value.to_s
 					end
 				end
-				object = find_by_id(row["id"]) || new
+				args = opts[:find_by] || { id: row["id"] }
+				object = find_by(args) || new
 				object.attributes = row.to_hash.slice(*accessible_attributes)
 				object.save!
 			end

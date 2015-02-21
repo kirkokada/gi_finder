@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20150213015305) do
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
 
   create_table "sizes", force: :cascade do |t|
-    t.integer  "brand_id",   default: 0
+    t.integer  "brand_id"
     t.string   "name",       default: ""
     t.float    "max_height", default: 0.0
     t.float    "min_height", default: 0.0

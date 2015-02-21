@@ -21,6 +21,11 @@ class SizeTest < ActiveSupport::TestCase
   	assert_not dup_size.valid?
   end
 
+  test 'should have brand_id' do
+    @size.brand_id = nil
+    assert_not @size.valid?
+  end
+
   test 'min weight should be a non-negative number' do
   	@size.min_weight = 'a'
   	assert_not @size.valid?

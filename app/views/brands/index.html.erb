@@ -15,12 +15,14 @@
 		<%= will_paginate @brands %>
 	</div>
 	<aside class="col-md-4">
-		<h3>CSV Import</h3>
+		<h3>Import Brands</h3>
 		<%= form_tag import_brands_path, multipart: true do %>
 			<div class="form-group">
 				<%= file_field_tag :file %>
 			</div>
 			<%= submit_tag "Import" %>
 		<% end %>
+
+		<h3><%= link_to "Import Sizes", new_size_import_path %></h3>
 	</aside>
 </div>

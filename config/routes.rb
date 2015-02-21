@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   root 'pages#home'
 
   devise_for :users
@@ -9,6 +10,12 @@ Rails.application.routes.draw do
       collection { post :import }
     end
   end
+
+  resources :sizes, only: [:destroy] do
+    collection { post :import }
+  end
+
+  resources :size_imports, only: [:new, :create]
 
   get 'search/' =>'pages#search'
 

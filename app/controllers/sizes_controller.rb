@@ -49,7 +49,7 @@ class SizesController < ApplicationController
   end
 
   def import
-    Size.import(params[:file], brand_id: @brand.id)
+    Size.import(params[:file], limit_to: { brand_id: @brand.id })
     redirect_to @brand
   end
 

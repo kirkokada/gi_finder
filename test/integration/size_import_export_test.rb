@@ -18,7 +18,7 @@ class SizeImportExportTest < ActionDispatch::IntegrationTest
   end
 
   test 'should only import records for the associated brand' do
-  	csv_rows = <<-eos
+  	csv_rows = <<-eos.gsub(/^ {4}/, '')
   	brand_id,name,min_height,max_height,min_weight,max_weight
   	20,size,40,1,1,1
   	eos
@@ -29,5 +29,29 @@ class SizeImportExportTest < ActionDispatch::IntegrationTest
   		post import_brand_sizes_path(@brand), 
   		     file: Rack::Test::UploadedFile.new(file, 'text/csv')
   	end
+  end
+
+  context 'import via brand slug' do
+    setup do
+      csv_rows = <<-eos.gsub(/^ {8}/, '')
+        brand_slug,name,min_height,max_height,min_weight,max_weight
+        #{@brand.slug},A1,65,70,130,150
+        eos
+      @file = Tempfile.new(['import', '.csv']) # ensures '.csv' filepath ending
+      @file.write(csv_rows)
+      @file.rewind
+      @file = Rack::Test::UploadedFile.new(@file, 'text/csv')
+    end
+
+    should 'create new size' do
+      assert_difference 'Size.count', 1 do
+        post size_imports_path, size_import: { file: @file }
+      end
+    end
+
+    should 'have the right association' do
+      post size_imports_path, size_import: { file: @file }
+      assert_equal @brand, Size.last.brand
+    end
   end
 end
