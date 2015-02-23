@@ -50,12 +50,12 @@ class BrandTest < ActiveSupport::TestCase
 
     context 'after changing' do
 
-      should 'send job to sidekiq worker' do
+      should 'set profile picture' do
         @brand.instagram_username = 'brand'
-        Sidekiq::Testing.fake! do
-          assert_difference 'InstagramProfileWorker.jobs.count' do
-            @brand.save
-          end
+        VCR.use_cassette 'user_search' do
+          @brand.save
+          @brand.reload
+          assert_not @brand.profile_picture.nil?
         end
       end
     end

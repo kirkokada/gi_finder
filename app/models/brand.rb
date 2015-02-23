@@ -31,7 +31,14 @@ class Brand < ActiveRecord::Base
 	end
 
 	def set_profile_picture
-		profile = InstagramProfileWorker.perform_async(self.id) if instagram_username
+		return if instagram_username.nil?
+		update_column(:profile_picture, instagram_profile['profile_picture'])
+	end
+
+	def instagram_profile
+		client = Instagram.client(client_id: ENV['INSTAGRAM_CLIENT_ID'])
+		profile = client.user_search(instagram_username, count: 1).first
+		return profile
 	end
 
 	private
