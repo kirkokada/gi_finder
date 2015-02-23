@@ -2,34 +2,63 @@ require 'test_helper'
 
 class BrandTest < ActiveSupport::TestCase
   def setup
-  	@brand = Brand.new(name:"Example Gi Brand", url:"http://examplegibrand.com" )
+  	@brand = Brand.new(name:"Example Gi Brand", 
+                       url:"http://examplegibrand.com" )
   end
 
   test 'should be valid' do
   	assert @brand.valid?
   end
 
-  test 'url should be present' do
-  	@brand.url = nil
-  	assert_not @brand.valid?
-  end
+  context 'url' do
+    
+    should validate_presence_of(:url)
+    
+    %w[http://brand.com/ https://brand.com http://www.brand.com].each do |url|
+      should allow_value(url).for(:url)
+    end
 
-  test 'url should be properly formatted' do
-  	%w[br@nd,com br%n#-gov br0;nc|.com].each do |url|
-  		@brand.url = url
-  		assert_not @brand.valid?, "#{url} should not be valid"
+  	%w[http://br@nd,com http/br%n#-gov br0;nc|.com].each do |url|
+  		should_not allow_value(url).for(:url)
   	end
+
+    context 'when "http://" prefix is missing' do
+      setup do
+        @brand.url.delete!('http://')
+        @brand.save!
+      end
+
+      should 'be saved after appending "http://"' do
+        assert @brand.reload.url.include?('http://')
+      end
+    end
   end
 
-  test 'should accept trailing backslash' do
-    @brand.url = @brand.url + "/"
-    assert @brand.valid?, "#{@brand.url} should be valid."
-  end
+  context 'instagram username' do
+    
+    context 'when properly formatted' do
+      %w[brand brAnd @bran_d].each do |name|
+        should allow_value(name).for(:instagram_username)
+      end
+    end
 
-  test 'should append "http://" if missing' do
-  	@brand.url.delete!('http://')
-  	@brand.save!
-  	assert @brand.reload.url.include?('http://')
+    context 'when improperly formatted' do
+      %w[br@nd brand! bran|)].each do |name|
+        should_not allow_value(name).for(:instagram_username)
+      end
+    end
+
+    context 'after changing' do
+
+      should 'send job to sidekiq worker' do
+        @brand.instagram_username = 'brand'
+        Sidekiq::Testing.fake! do
+          assert_difference 'InstagramProfileWorker.jobs.count' do
+            @brand.save
+          end
+        end
+      end
+    end
   end
 
   test 'should import csv' do

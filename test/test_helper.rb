@@ -2,7 +2,20 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require "minitest/reporters"
+require 'sidekiq/testing'
+
 Minitest::Reporters.use!
+
+Sidekiq::Testing.inline!
+
+VCR.configure do |config|
+  config.cassette_library_dir = "test/fixtures/vcr_cassetes"
+  config.hook_into :webmock
+  config.allow_http_connections_when_no_cassette = false
+  config.filter_sensitive_data '[*REDACTED*]' do 
+    ENV['INSTAGRAM_CLIENT_ID'] 
+  end
+end
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.

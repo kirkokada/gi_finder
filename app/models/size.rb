@@ -13,7 +13,7 @@ class Size < ActiveRecord::Base
 
 	belongs_to :brand
 
-	delegate :name, :url, :slug, to: :brand, prefix: true
+	delegate :name, :url, :profile_picture, :slug, to: :brand, prefix: true
 
 	# Returns a string indicating the height range in (feet)'(inches)"
 	# format.

@@ -1,15 +1,20 @@
-<div class="row center">
+<div class="search_result row center">
 	<div class="col-md-3">
+		<% if size.brand_profile_picture %>
+			<div class="brand_profile_picture">
+				<%= image_tag size.brand_profile_picture, height: 140, width: 140 %>
+				<h4><span><%= size.brand_name %></span></h4>
+			</div>
+		<% else %>
 		<h2><%= link_to size.brand_name, size.brand_url %></h4>
+		<% end %>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-3 size">
 		<h2><%= size.name %></h2>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-6">
 		<h5>Height</h5>
 		<%= size.height_range %>
-	</div>
-	<div class="col-md-3">
 		<h5>Weight</h5>
 		<%= size.weight_range %>
 	</div>

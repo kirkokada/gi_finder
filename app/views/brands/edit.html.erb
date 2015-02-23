@@ -3,7 +3,7 @@
 		<h2>Edit Brand</h2>
 		<%= form_for @brand do |f| %>
 		  <%= render 'shared/error_messages', object: f.object %>
-		  <%= render 'fields' %>
+		  <%= render 'fields', f:f %>
 		  <%= f.submit "Submit", class: "btn btn-primary" %>
 		<% end %>
 	</div>

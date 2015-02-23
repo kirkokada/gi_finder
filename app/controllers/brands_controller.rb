@@ -58,6 +58,6 @@ class BrandsController < ApplicationController
 	private
 
 		def brand_params
-			params.require(:brand).permit(:name, :url)
+			params.require(:brand).permit(:name, :url, :instagram_username)
 		end
 end

@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150213015305) do
+ActiveRecord::Schema.define(version: 20150222004812) do
 
   create_table "brands", force: :cascade do |t|
     t.string   "name"
     t.string   "slug"
     t.string   "url"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "instagram_username"
+    t.string   "profile_picture"
   end
 
   add_index "brands", ["slug"], name: "index_brands_on_slug"

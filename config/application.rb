@@ -26,5 +26,8 @@ module GiFinder
 
     # Include ~/lib/ in autoload paths
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # Include sidekiq workers
+    config.autoload_paths += %W(#{config.root}/app/workers)
   end
 end
