@@ -9,7 +9,7 @@ Minitest::Reporters.use!
 Sidekiq::Testing.inline!
 
 VCR.configure do |config|
-  config.cassette_library_dir = "test/fixtures/vcr_cassetes"
+  config.cassette_library_dir = "test/vcr_cassettes"
   config.hook_into :webmock
   config.allow_http_connections_when_no_cassette = false
   config.filter_sensitive_data '[*REDACTED*]' do 
