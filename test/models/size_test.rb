@@ -53,4 +53,37 @@ class SizeTest < ActiveSupport::TestCase
   	@size.max_height = -1
   	assert_not @size.valid?
   end
+
+  context 'search' do
+    
+    setup do
+      @size_1 = @brand.sizes.create(name: "A1", 
+                                    min_height: 62,
+                                    max_height: 65,
+                                    min_weight: 110,
+                                    max_weight: 145)
+      @size_2 = @brand.sizes.create(name: "A2", 
+                                    min_height: 63,
+                                    max_height: 68,
+                                    min_weight: 130,
+                                    max_weight: 160)
+    end
+
+    should "not return sizes that don't match measurements" do
+      results = Size.search(height: 200, weight: 900)
+      assert results.empty?
+    end
+
+    should "only return matching sizes" do
+      results = Size.search(height: 62, weight: 110)
+      assert_equal @size_1, results.first
+      assert_not results.include?(@size_2)
+    end
+
+    should "return sizes in order of closeness to max measurements" do
+      results = Size.search(height: 64, weight: 140)
+      assert @size_1, results.first
+      assert @size_2, results.last
+    end
+  end
 end

@@ -5,7 +5,7 @@
 		<%= form_for @brand do |f| %>
 			<%= render 'shared/error_messages', object: f.object %>
 
-		  <%= render 'fields' %>
+		  <%= render 'fields', f: f %>
 
 		  <div class="form-group">
 		  	<%= f.submit "Submit", class: "btn btn-primary" %>

@@ -31,6 +31,7 @@ class BrandsController < ApplicationController
 
 	def index
 		@brands = Brand.all
+		@size_import = SizeImport.new
 		respond_to do |format|
 			format.html { @brands = @brands.paginate(page: params[:page]) }
 			format.csv do 
@@ -58,6 +59,6 @@ class BrandsController < ApplicationController
 	private
 
 		def brand_params
-			params.require(:brand).permit(:name, :url, :instagram_username)
+			params.require(:brand).permit(:name, :url, :instagram_username, :profile_picture)
 		end
 end

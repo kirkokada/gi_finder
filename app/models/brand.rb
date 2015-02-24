@@ -14,6 +14,7 @@ class Brand < ActiveRecord::Base
 	validates :url,     presence: true, 
 	                    format: { with: VALID_URL_REGEX } 
 	validates :instagram_username, allow_nil: true,
+																 allow_blank: true,
 																 uniqueness: { case_sensitive: false },
 	                               format: { with: INSTAGRAM_USERNAME_REGEX }
 	
@@ -27,11 +28,11 @@ class Brand < ActiveRecord::Base
 	has_many :sizes, dependent: :destroy
 
 	def self.accessible_attributes
-		%w[id name url slug instagram_username]
+		%w[id name url slug instagram_username profile_picture]
 	end
 
 	def set_profile_picture
-		return if instagram_username.nil?
+		return if instagram_username.nil? || instagram_username.blank? || !instagram_username_changed?
 		update_column(:profile_picture, instagram_profile['profile_picture'])
 	end
 

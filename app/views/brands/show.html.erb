@@ -1,8 +1,15 @@
 <div class="row">
 	<% if @brand.profile_picture %>
-		<%= image_tag @brand.profile_picture, alt: "profile picture" %>
+		<%= image_tag @brand.profile_picture, alt: "#{@brand.name} logo",
+		                                      height: 140,
+		                                      width: 140 %>
 	<% end %>
-	<h1><%= @brand.name %></h1>
+	<h1>
+		<%= @brand.name %>
+		<% if current_user.admin? %>
+			(<%= link_to 'edit', edit_brand_path(@brand) %>)
+		<% end %>
+	</h1>
 	<div class="col-md-4">
 		<h2>Sizes</h2>
 		<% if @sizes.any? %>
@@ -12,7 +19,6 @@
 			<h4>Actions</h4>
 			<div>
 				<%= link_to 'new', new_brand_size_path(@brand) %> |
-				<%= link_to 'export', brand_sizes_path(@brand, format: :csv) %>
 			</div>
 		<% end %>
 	</div>

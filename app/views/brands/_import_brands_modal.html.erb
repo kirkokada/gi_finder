@@ -1,0 +1,27 @@
+<%= button_tag 'Import brands', class: "btn btn-primary btn-lg", 
+                                      "data-toggle" => "modal",
+                                      "data-target" => '#import_brands' %>
+
+
+<div class="modal fade" id="import_brands" tabindex="-1" 
+     role="dialog" aria-labelledby="import_brands_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="import_brands_label">Import Brands</h4>
+      </div>
+      <div class="modal-body">
+        <%= form_tag import_brands_path, multipart: true do %>
+        	<div class="form-group">
+        		<%= file_field_tag :file %>
+        	</div>
+	        <%= button_tag "Close", class: "btn btn-default", 'data-dismiss' => 'modal' %>
+        	<%= submit_tag "Import", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

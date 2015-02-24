@@ -22,13 +22,21 @@ class Size < ActiveRecord::Base
 		max_inches = max_height.to_i % 12
 		min_feet   = min_height.to_i / 12
 		min_inches = min_height.to_i % 12
-		"#{min_feet}'#{min_inches}\" - #{max_feet}'#{max_inches}\""
+		if min_height == 1
+			"≤ #{max_feet}'#{max_inches}\""
+		elsif max_height > 500
+			"≥ #{min_feet}'#{min_inches}\""
+		else
+			"#{min_feet}'#{min_inches}\" - #{max_feet}'#{max_inches}\""
+		end
 	end
 
 	# Returns a string indicating the weight range in lbs
 	def weight_range
 		if min_weight == 1
 			"≤ #{max_weight.to_i} lbs"
+		elsif max_weight > 500
+			"≥ #{min_weight.to_i}"
 		else
 			"#{min_weight.to_i} - #{max_weight.to_i} lbs"
 		end
@@ -39,14 +47,24 @@ class Size < ActiveRecord::Base
 	# doesn't exist, returns a sizes matching only height, then only weight if no matches are found.
 
 	def self.search(options={})
-		results = match_height(options[:height]).match_weight(options[:weight])
+		height = options[:height]
+		weight = options[:weight]
+		results = match_height(height).match_weight(weight).order('weight_diff')
 		if results.empty?
 			results = match_height(options[:height])
 			if results.empty?
 				results = match_weight(options[:weight])
 			end
 		end
-		return results
+		return results.sort_by_fit(options)
+	end
+
+	def self.sort_by_fit(options={})
+		height = options[:height]
+		weight = options[:weight]
+		sql_height = sanitize_sql_for_conditions("(max_height - #{height}) AS height_diff")
+		sql_weight = sanitize_sql_for_conditions("(max_weight - #{weight}) AS weight_diff")
+		select('sizes.*', sql_weight).order('weight_diff ASC').select('sizes.*', sql_height).order('height_diff ASC')
 	end
 
 	def self.match_weight(weight)

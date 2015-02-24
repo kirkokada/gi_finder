@@ -1,0 +1,29 @@
+<%= button_tag 'Import sizes', class: "btn btn-primary btn-lg",
+                                     "data-toggle" => "modal",
+                                     "data-target" => "#import_sizes" %>
+
+<div class="modal fade" id="import_sizes" tabindex="-1" 
+     role="dialog" aria-labelledby="import_sizes_label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="import_sizes_label">Import Brands</h4>
+      </div>
+      <div class="modal-body">
+        <h2>Import Sizes</h2>
+        <%= form_for @size_import, multipart: true do |f| %>
+          <div class="form-group">
+            <%= f.label :file %>
+            <%= f.file_field :file %>
+          </div>
+          <%= button_tag "Cancel", class: "btn btn-default",
+                                   "data-dismiss" => "modal" %>
+          <%= f.submit "Submit", class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
