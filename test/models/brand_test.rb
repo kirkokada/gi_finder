@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BrandTest < ActiveSupport::TestCase
   def setup
-  	@brand = Brand.new(name:"Example Gi Brand", 
+  	@brand = Brand.new(name:"Brand", 
                        url:"http://examplegibrand.com" )
   end
 
@@ -56,6 +56,52 @@ class BrandTest < ActiveSupport::TestCase
           @brand.save
           @brand.reload
           assert_not @brand.profile_picture.nil?
+        end
+      end
+    end
+  end
+
+  context 'fetching instagram media' do
+    
+    context 'with an instagram_username' do
+      setup do
+        @brand.save
+        @brand.update_column(:instagram_username, 'brand') # Avoid API call on after_save hook
+      end
+      should 'get relevant media' do
+        VCR.use_cassette 'tag_recent_media' do
+          media = @brand.ig_media
+          first_item = media.first
+          assert first_item.tags.include?(@brand.instagram_username)
+        end
+      end
+    end
+
+    context 'without an instagram username' do
+      setup do
+        @brand.instagram_username = nil
+        @brand.save
+      end
+
+      should 'get relevant media' do
+        VCR.use_cassette 'tag_recent_media_no_username' do
+          media = @brand.ig_media
+          first_item = media.first
+          assert_includes first_item.tags, @brand.usernameify(@brand.name)
+        end
+      end
+    end
+
+    context 'when search returns no tags' do
+      setup do
+        @brand.name = "Untaggable Brand Name For Lyfe"
+        @brand.save
+      end
+
+      should 'return an empty hash' do
+        VCR.use_cassette 'tag_recent_media_untagged_name' do
+          media = @brand.ig_media
+          assert_empty media
         end
       end
     end

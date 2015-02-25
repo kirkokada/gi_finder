@@ -1,16 +1,16 @@
 <div class="row">
-	<% if @brand.profile_picture %>
-		<%= image_tag @brand.profile_picture, alt: "#{@brand.name} logo",
-		                                      height: 140,
-		                                      width: 140 %>
-	<% end %>
-	<h1>
-		<%= @brand.name %>
-		<% if current_user.admin? %>
-			(<%= link_to 'edit', edit_brand_path(@brand) %>)
+	<aside class="col-md-3">
+		<% if @brand.profile_picture %>
+			<%= image_tag @brand.profile_picture, alt: "#{@brand.name} logo",
+			                                      height: 140,
+			                                      width: 140 %>
 		<% end %>
-	</h1>
-	<div class="col-md-4">
+		<h1>
+			<%= @brand.name %>
+			<% if current_user.admin? %>
+				(<%= link_to 'edit', edit_brand_path(@brand) %>)
+			<% end %>
+		</h1>
 		<h2>Sizes</h2>
 		<% if @sizes.any? %>
 			<%= render 'size_table' %>
@@ -21,11 +21,12 @@
 				<%= link_to 'new', new_brand_size_path(@brand) %> |
 			</div>
 		<% end %>
-	</div>
-	<div class="col-md-4">
-		<h2>Models</h2>
-	</div>
-	<div class="col-md-4">
-		<h2>Other Stuff</h2>
+	</aside>
+	<div class="col-md-9">
+		<div class="row">
+			<% @feed_items.each do |feed_item| %>
+				<%= render 'feed_item', feed_item: feed_item %>
+			<% end %>
+		</div>
 	</div>
 </div>

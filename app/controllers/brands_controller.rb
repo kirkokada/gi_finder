@@ -54,6 +54,7 @@ class BrandsController < ApplicationController
 	def show
 		@brand = Brand.friendly.find(params[:id])
 		@sizes = @brand.sizes
+		@feed_items = @brand.ig_media
 	end
 
 	private

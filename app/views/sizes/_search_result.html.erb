@@ -2,8 +2,10 @@
 	<div class="col-md-3">
 		<% if size.brand_profile_picture %>
 			<div class="brand_profile_picture">
-				<%= image_tag size.brand_profile_picture, height: 140, width: 140 %>
-				<h4><span><%= size.brand_name %></span></h4>
+				<a href=<%= brand_path size.brand %>>
+					<%= image_tag size.brand_profile_picture, height: 140, width: 140 %>
+					<h4><span><%= size.brand_name %></span></h4>
+				</a>
 			</div>
 		<% else %>
 		<h2><%= link_to size.brand_name, size.brand %></h4>

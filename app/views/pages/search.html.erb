@@ -3,6 +3,7 @@
 		<h2>Search Results</h2>
 		<% if @sizes.any? %>
 			<%= render partial: 'sizes/search_result', as: :size, collection: @sizes %>
+			<%= will_paginate @sizes %>
 		<% else %>
 			No sizes found.
 		<% end %>

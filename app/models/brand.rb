@@ -32,14 +32,52 @@ class Brand < ActiveRecord::Base
 	end
 
 	def set_profile_picture
-		return if instagram_username.nil? || instagram_username.blank? || !instagram_username_changed?
-		update_column(:profile_picture, instagram_profile['profile_picture'])
+		return if !has_ig_username? || !instagram_username_changed?
+		update_column(:profile_picture, ig_profile['profile_picture'])
 	end
 
-	def instagram_profile
-		client = Instagram.client(client_id: ENV['INSTAGRAM_CLIENT_ID'])
+	def ig_profile
+		client = ig_client
 		profile = client.user_search(instagram_username, count: 1).first
 		return profile
+	end
+
+	def ig_client
+		Instagram.client(client_id: ENV['INSTAGRAM_CLIENT_ID'])
+	end
+
+	# Returns a Hashie:Mash of recent Instagram media tagged with
+	# either the instagram username or the closest tag search result for
+	# the brand name
+	def ig_media
+		if has_ig_username?
+			tag = instagram_username
+		else
+			tag = find_ig_tag(self.name)
+			return [] if tag.nil?
+		end
+		media = ig_client.tag_recent_media(tag)
+	end
+
+	# Returns a string representing the tag with the most media for
+	# the given string. May be problematic if the string is a common word.
+	def find_ig_tag(string)
+		tags = ig_client.tag_search(usernameify(string))
+		return nil if tags.empty?
+		# Sort the tags by media count in descending order
+		tags.sort { |t1, t2| t2.media_count <=> t1.media_count }
+		tag = tags.first.name
+		return tag
+	end
+
+	def has_ig_username?
+		instagram_username && !instagram_username.blank?
+	end
+
+	# Removes non-word characters from a string
+
+	def usernameify(username)
+		username.gsub(/[\W]+/, "").downcase
 	end
 
 	private
