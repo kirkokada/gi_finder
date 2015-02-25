@@ -24,8 +24,8 @@
 	</aside>
 	<div class="col-md-9">
 		<div class="row">
-			<% @feed_items.each do |feed_item| %>
-				<%= render 'feed_item', feed_item: feed_item %>
+			<% if @feed_items.any? %>
+				<%= render partial: 'feed_item', as: :feed_item, collection: @feed_items %>
 			<% end %>
 		</div>
 	</div>
