@@ -53,7 +53,7 @@ class Brand < ActiveRecord::Base
 		if has_ig_username?
 			tag = instagram_username
 		else
-			tag = find_ig_tag(self.name)
+			tag = find_ig_tag(name)
 			return [] if tag.nil?
 		end
 		media = ig_client.tag_recent_media(tag)

@@ -1,14 +1,20 @@
+<% unless feed_item.nil? %>
 	<% caption = feed_item.caption %>
 	<% image_url = feed_item.images.low_resolution.url %>
 	<div class="col-md-4 col-sm-5 col-xs-10 col-xs-offset-1">
 		<div class="feed_item thumbnail" 
 				 data-toggle="tooltip" 
-				 title="@<%= caption.from.username %>: <%= breaking_word_wrap(caption.text, line_width: 35) %>">
+					<% if caption %>
+					  title="@<%= caption.from.username %>: 
+					        <%= breaking_word_wrap(caption.text, line_width: 35) %>"
+					<% end %>
+					        >
 			<div class="feed_item_image">
 				<%= image_tag image_url, height: 242, width: 242 %>
 			</div>
 			<div class="caption">
+				<strong>@<%= feed_item.user.username %></strong> via Instagram
 			</div>
 		</div>
 	</div>
-
+<% end %>
