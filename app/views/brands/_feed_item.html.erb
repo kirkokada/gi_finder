@@ -1,7 +1,7 @@
 <% unless feed_item.nil? %>
 	<% caption = feed_item.caption %>
 	<% image_url = feed_item.images.low_resolution.url %>
-	<div class="col-md-4 col-sm-5 col-xs-10 col-xs-offset-1">
+	<div class="feed_item col-md-4 col-sm-5 col-xs-10 col-xs-offset-1">
 		<div class="feed_item thumbnail" 
 				 data-toggle="tooltip" 
 					<% if caption %>

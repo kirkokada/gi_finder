@@ -7,7 +7,7 @@
 		<% end %>
 		<h1>
 			<%= @brand.name %>
-			<% if current_user.admin? %>
+			<% if current_user && current_user.admin %>
 				(<%= link_to 'edit', edit_brand_path(@brand) %>)
 			<% end %>
 		</h1>
@@ -15,7 +15,7 @@
 		<% if @sizes.any? %>
 			<%= render 'size_table' %>
 		<% end %>
-		<% if current_user.admin? %>
+		<% if current_user && current_user.admin %>
 			<h4>Actions</h4>
 			<div>
 				<%= link_to 'new', new_brand_size_path(@brand) %> |

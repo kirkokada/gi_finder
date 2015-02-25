@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-8">
-		<h2>Search Results</h2>
+		<h2>Recommended Brands and Sizes:</h2>
 		<% if @sizes.any? %>
 			<%= render partial: 'sizes/search_result', as: :size, collection: @sizes %>
 			<%= will_paginate @sizes %>
